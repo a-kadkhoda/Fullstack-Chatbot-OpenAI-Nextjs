@@ -1,6 +1,8 @@
-import { userRegisterSchema } from "@/validations/userValidation";
+import { userRegisterSchema } from "@/helper/validations/userValidation";
 import { NextRequest, NextResponse } from "next/server";
 import { userService } from "@/services/user.service";
+import { generateJwt } from "@/helper/token";
+import { cookieOptions } from "@/helper/cookieConfig";
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,13 +18,26 @@ export async function POST(request: NextRequest) {
 
     const result = await userService.createUser(parseResult.data);
 
-    if (result.status !== 201)
+    if (!result.user || result.status !== 201)
       return NextResponse.json(
         { error: result.error },
         { status: result.status }
       );
 
-    return NextResponse.json({ user: result.user }, { status: result.status });
+    const token = await generateJwt(result.user);
+
+    const res = NextResponse.json(
+      { user: result.user },
+      { status: result.status }
+    );
+
+    res.cookies.set({
+      name: "token",
+      value: token,
+      ...cookieOptions,
+    });
+
+    return res;
   } catch (error) {
     console.error("Error creating user:", error);
     return NextResponse.json(

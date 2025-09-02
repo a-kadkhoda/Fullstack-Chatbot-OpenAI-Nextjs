@@ -7,17 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SenderRole {
+  USER
+  BOT
+}
+
 model User {
   id            Int            @id @default(autoincrement())
   name          String
   email         String         @unique
   password      String
+  avatarUrl     String?
   createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  lastLogin     DateTime?
   conversations Conversation[]
 }
 
 model Conversation {
   id            String    @id @default(uuid())
+  title         String?
   userId        Int
   user          User      @relation(fields: [userId], references: [id])
   lastMessageId Int?
@@ -30,5 +39,8 @@ model Message {
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   content        String
+  role           SenderRole
+  metadata       Json?
   createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }

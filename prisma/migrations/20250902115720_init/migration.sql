@@ -1,10 +1,16 @@
+-- CreateEnum
+CREATE TYPE "public"."SenderRole" AS ENUM ('USER', 'BOT');
+
 -- CreateTable
 CREATE TABLE "public"."User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "avatarUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "lastLogin" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -12,6 +18,7 @@ CREATE TABLE "public"."User" (
 -- CreateTable
 CREATE TABLE "public"."Conversation" (
     "id" TEXT NOT NULL,
+    "title" TEXT,
     "userId" INTEGER NOT NULL,
     "lastMessageId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -24,7 +31,10 @@ CREATE TABLE "public"."Message" (
     "id" SERIAL NOT NULL,
     "conversationId" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "role" "public"."SenderRole" NOT NULL,
+    "metadata" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );

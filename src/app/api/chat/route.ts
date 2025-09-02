@@ -1,4 +1,4 @@
-import { chatSchema } from "@/validations/chatValidations";
+import { chatSchema } from "@/helper/validations/chatValidations";
 import { chatService } from "@/services/chat.service";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       status: 400,
     });
   }
-  const { prompt, conversationId } = parseResult.data;
+  const { prompt } = parseResult.data;
 
   try {
     const response = await chatService.sendMessage(prompt);
