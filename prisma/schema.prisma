@@ -29,7 +29,7 @@ model Conversation {
   title         String?
   userId        Int
   user          User      @relation(fields: [userId], references: [id])
-  lastMessageId Int?
+  lastMessageId String?
   createdAt     DateTime  @default(now())
   messages      Message[]
 }

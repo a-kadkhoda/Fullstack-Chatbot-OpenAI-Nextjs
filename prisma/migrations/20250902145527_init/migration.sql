@@ -20,7 +20,7 @@ CREATE TABLE "public"."Conversation" (
     "id" TEXT NOT NULL,
     "title" TEXT,
     "userId" INTEGER NOT NULL,
-    "lastMessageId" INTEGER,
+    "lastMessageId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Conversation_pkey" PRIMARY KEY ("id")
