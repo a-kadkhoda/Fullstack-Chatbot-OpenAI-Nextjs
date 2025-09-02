@@ -3,6 +3,8 @@ import { chatService } from "@/services/chat.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const userID = request.headers.get("x-user-id");
+
   const body = await request.json();
   const parseResult = chatSchema.safeParse(body);
   if (!parseResult.success) {

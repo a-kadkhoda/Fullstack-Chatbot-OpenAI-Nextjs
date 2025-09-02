@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         { status: result.status }
       );
 
-    const token = await generateJwt(result.user);
+    const token = await generateJwt({ id: `${result.user.id}` });
 
     const res = NextResponse.json(
       { user: result.user },
