@@ -3,22 +3,32 @@ import { chatService } from "@/services/chat.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const userID = request.headers.get("x-user-id");
-
-  const body = await request.json();
-  const parseResult = chatSchema.safeParse(body);
-  if (!parseResult.success) {
-    return NextResponse.json({
-      error: parseResult.error.flatten(),
-      status: 400,
-    });
-  }
-  const { prompt } = parseResult.data;
-
   try {
-    const response = await chatService.sendMessage(prompt);
+    const userId = request.headers.get("x-user-id");
 
-    return NextResponse.json(response);
+    const body = await request.json();
+    const parseResult = chatSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json({
+        error: parseResult.error.flatten(),
+        status: 400,
+      });
+    }
+    const { prompt, conversationId } = parseResult.data;
+
+    const result = await chatService.sendMessage(
+      Number(userId),
+      prompt,
+      conversationId
+    );
+
+    if (result.status !== 200)
+      return NextResponse.json({
+        error: result.error,
+        status: result.status,
+      });
+
+    return NextResponse.json(result.data);
   } catch (error) {
     console.error("Chat API Error:", error);
     return NextResponse.json(
