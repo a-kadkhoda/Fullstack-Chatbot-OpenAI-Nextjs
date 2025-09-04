@@ -4,6 +4,35 @@ import { userService } from "@/services/user.service";
 import { generateJwt } from "@/helper/token";
 import { cookieOptions } from "@/helper/cookieConfig";
 
+export async function GET(request: NextRequest) {
+  try {
+    const userId = request.headers.get("x-user-id");
+
+    const result = await userService.getMe(Number(userId));
+
+    if (result.status !== 200)
+      return NextResponse.json(
+        { isSuccess: false, error: result.error },
+        { status: result.status }
+      );
+
+    return NextResponse.json(
+      {
+        isSuccess: true,
+        user: result.user,
+        message: `Welcome ${result.user?.name}`,
+      },
+      { status: result.status }
+    );
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return NextResponse.json(
+      { isSuccess: false, error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -28,7 +57,11 @@ export async function POST(request: NextRequest) {
     const token = await generateJwt({ id: `${result.user.id}` });
 
     const res = NextResponse.json(
-      { isSuccess: true, user: result.user, message: "Created Successfully" },
+      {
+        isSuccess: true,
+        user: { name: result.user.name, email: result.user.email },
+        message: "Created Successfully",
+      },
       { status: result.status }
     );
 

@@ -1,13 +1,9 @@
 import prisma from "@/lib/db";
+import { LoginData } from "@/types/auth";
 import bcrypt from "bcrypt";
 
-interface Login {
-  email: string;
-  password: string;
-}
-
 export const authService = {
-  async login({ email, password }: Login) {
+  async login({ email, password }: LoginData) {
     const user = await prisma.user.findUnique({
       where: {
         email,

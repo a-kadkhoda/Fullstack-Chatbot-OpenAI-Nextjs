@@ -1,14 +1,10 @@
 import prisma from "@/lib/db";
+import { RegisterData } from "@/types/auth";
 import bcrypt from "bcrypt";
-
-interface RegisterInput {
-  name: string;
-  email: string;
-  password: string;
-}
+import _ from "lodash";
 
 export const userService = {
-  async createUser({ email, name, password }: RegisterInput) {
+  async createUser({ email, name, password }: RegisterData) {
     const existingUser = await prisma.user.findUnique({
       where: {
         email,
@@ -33,6 +29,22 @@ export const userService = {
     return {
       user: { id: user.id, name: user.name, email: user.email },
       status: 201,
+    };
+  },
+  async getMe(id: number) {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!existingUser)
+      return {
+        error: "User not exist",
+        status: 404,
+      };
+    return {
+      user: _.pick(existingUser, ["name", "email", "avatarUrl"]),
+      status: 200,
     };
   },
 };

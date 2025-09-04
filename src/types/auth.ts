@@ -1,6 +1,6 @@
 export interface LoginSuccess {
   isSuccess: boolean;
-  user: object;
+  user: { name: string; email: string };
   message: string;
 }
 export interface LoginFailed {
@@ -14,7 +14,7 @@ export interface LoginData {
 
 export interface RegisterSuccess {
   isSuccess: boolean;
-  user: object;
+  user: { name: string; email: string };
   message: string;
 }
 export interface RegisterFailed {

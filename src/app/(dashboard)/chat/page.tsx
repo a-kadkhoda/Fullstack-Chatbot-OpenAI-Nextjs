@@ -1,7 +1,7 @@
 import React from "react";
 
-const Chat = async () => {
-  return <div>Chat</div>;
+const Chat = () => {
+  return <div className="text-blue-500">Chat</div>;
 };
 
 export default Chat;

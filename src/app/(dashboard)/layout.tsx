@@ -1,7 +1,21 @@
+import { getUser } from "@/lib/fetchData/user";
 import React from "react";
+import { AuthProvider } from "../AuthProvider";
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  return <main>{children}</main>;
-};
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const user = await getUser();
 
-export default RootLayout;
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <main>
+      <AuthProvider profile={user}>{children}</AuthProvider>
+    </main>
+  );
+}
