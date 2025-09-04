@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
     if (!parseResult.success)
       return NextResponse.json(
         {
+          isSuccess: false,
           error: parseResult.error.flatten(),
         },
         { status: 400 }
@@ -20,14 +21,14 @@ export async function POST(request: NextRequest) {
 
     if (!result.user || result.status !== 201)
       return NextResponse.json(
-        { error: result.error },
+        { isSuccess: false, error: result.error },
         { status: result.status }
       );
 
     const token = await generateJwt({ id: `${result.user.id}` });
 
     const res = NextResponse.json(
-      { user: result.user },
+      { isSuccess: true, user: result.user, message: "Created Successfully" },
       { status: result.status }
     );
 
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error creating user:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { isSuccess: false, error: "Internal server error" },
       { status: 500 }
     );
   }
