@@ -1,7 +1,7 @@
 import { verifyJwt } from "@/helper/token";
 import { NextRequest, NextResponse } from "next/server";
 
-const publicApiRoutes = ["/api/user"];
+const publicApiRoutes = ["/api/user", "/api/auth/login"];
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;

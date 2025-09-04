@@ -8,7 +8,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="h-screen">
+      <body className="size-full flex flex-col">
         <Providers>{children}</Providers>
       </body>
     </html>
