@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
       <Dropdown backdrop="blur" placement="right">
         <DropdownTrigger>
           <div
-            className={`hover:bg-secondary-200 p-1  ${
+            className={`transition-colors duration-300 hover:bg-secondary-200 p-1  ${
               isOpen ? "rounded-lg" : "rounded-full"
             } flex items-center`}
           >
