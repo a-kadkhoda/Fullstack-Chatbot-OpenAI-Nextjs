@@ -3,3 +3,14 @@
 /* Note: You may need to change the path to fit your project structure */
 @custom-variant dark (&:is(.dark *));
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@theme inline {
+  --breakpoint-xxs: 23.4375rem; /* 375px - Mobile Small */
+  --breakpoint-xs: 25.875rem; /* 414px - Mobile Large */
+  --breakpoint-sm: 48rem; /* 768px - Tablet Portrait */
+  --breakpoint-md: 64rem; /* 1024px - Tablet Landscape */
+  --breakpoint-lg: 85.375rem; /* 1366px - Laptop */
+  --breakpoint-xl: 90rem; /* 1440px - Standard Desktop */
+  --breakpoint-2xl: 120rem; /* 1920px - Large Desktop */
+  --breakpoint-3xl: 160rem; /* 2560px - extra Large Desktop */
+}

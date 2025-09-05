@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@heroui/button";
-import React, { useState } from "react";
+import React from "react";
 import { Edit, Menu, Search } from "lucide-react";
 import {
   Dropdown,
@@ -9,6 +9,12 @@ import {
   DropdownItem,
 } from "@heroui/dropdown";
 import { User } from "@heroui/user";
+
+interface SidebarProps {
+  isOpen: boolean;
+  onIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 const recents = [
   {
     title: "Chat",
@@ -30,19 +36,19 @@ const recents = [
   },
 ];
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
   return (
     <div
-      className={`h-full  bg-primary-50  px-4 py-6 flex flex-col transition-width  duration-700 ${
-        isOpen ? "w-64" : "w-20"
+      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col transition-all duration-300 ${
+        isOpen
+          ? "w-4/5 md:w-64 absolute md:static  translate-x-0 md:translate-x-0"
+          : "w-4/5 md:w-20 absolute md:static -translate-x-full md:translate-x-0"
       }`}
     >
       <div className="size-full flex flex-col items-center gap-8">
         <div
           className={`w-full flex ${
-            isOpen ? "  justify-between" : "justify-center"
+            isOpen ? "justify-between" : "justify-center"
           }`}
         >
           {isOpen && (
@@ -51,7 +57,7 @@ const Sidebar = () => {
             </div>
           )}
           <div
-            onClick={() => setIsOpen((prev) => !prev)}
+            onClick={() => onIsOpen((prev) => !prev)}
             className=" size-8 rounded-full hover:bg-secondary-200 cursor-pointer flex justify-center items-center transition-colors"
           >
             <Menu size={20} />
@@ -86,7 +92,7 @@ const Sidebar = () => {
       <Dropdown backdrop="blur" placement="right">
         <DropdownTrigger>
           <div
-            className={`hover:bg-secondary-200 p-1 ${
+            className={`hover:bg-secondary-200 p-1  ${
               isOpen ? "rounded-lg" : "rounded-full"
             } flex items-center`}
           >

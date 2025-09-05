@@ -1,7 +1,7 @@
 import { getUser } from "@/helper/fetchData/user";
 import React from "react";
 import { AuthProvider } from "./AuthProvider";
-import Sidebar from "@/features/sidebar/components/Sidebar";
+import SidebarWrapper from "@/features/sidebar/components/SidebarWrapper";
 
 export default async function DashboardLayout({
   children,
@@ -16,9 +16,10 @@ export default async function DashboardLayout({
 
   return (
     <section className="h-screen w-full flex ">
-      <Sidebar />
       <AuthProvider profile={user}>
-        <main className="size-full p-6">{children}</main>
+        <SidebarWrapper>
+          <main className="size-full p-6 overflow-y-auto">{children}</main>
+        </SidebarWrapper>
       </AuthProvider>
     </section>
   );
