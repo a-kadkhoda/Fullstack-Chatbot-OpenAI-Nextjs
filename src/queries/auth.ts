@@ -6,6 +6,7 @@ import {
   LoginData,
   RegisterData,
 } from "@/types/auth";
+import { MutationOptions } from "@/types/queries";
 
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -14,12 +15,6 @@ export const authKeys = {
   all: ["auth"],
   login: ["login"],
 };
-
-interface MutationOptions<T, E> {
-  onSuccess?: (data: T) => void;
-  onError?: (error: E | undefined) => void;
-  onSettled?: (data: T | undefined, error: E | undefined) => void;
-}
 
 export const useLogin = (
   options?: MutationOptions<AuthSuccessResponse<User>, AuthErrorResponse>

@@ -1,22 +1,23 @@
 "use client";
 
+import TextArea from "@/features/textArea/components/TextArea";
 import { useChat } from "@/queries/chat";
-import { Textarea } from "@heroui/input";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
 const PromptInput = () => {
   const { mutate: Chat } = useChat();
 
-  const [prompt, setPrompt] = useState<string | null>(null);
+  const [prompt, setPrompt] = useState<string>("");
 
   return (
-    <div className=" relative w-full md:w-3/4  max-h-48 flex items-center overflow-hidden bg-default-100 rounded-xl shadow-md shadow-primary-200">
-      <Textarea
-        type="text"
-        className="h-full w-[calc(100%-80px)]"
-        placeholder="Ask Me"
+    <div className=" relative w-full md:w-3/4 flex items-center overflow-hidden bg-default-100 rounded-xl shadow-md shadow-primary-200">
+      <TextArea
+        minRows={4}
+        maxRows={8}
         onChange={(e) => setPrompt(e.target.value)}
+        value={prompt}
+        className="w-[calc(100%-80px)] p-4 outline-0 resize-none text-xl"
       />
       <div
         onClick={() => !!prompt && Chat({ prompt })}
