@@ -9,10 +9,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const parseResult = chatSchema.safeParse(body);
     if (!parseResult.success) {
-      return NextResponse.json({
-        error: parseResult.error.flatten(),
-        status: 400,
-      });
+      return NextResponse.json(
+        {
+          isSuccess: false,
+          error: parseResult.error.flatten(),
+        },
+        { status: 400 }
+      );
     }
     const { prompt, conversationId } = parseResult.data;
 
@@ -23,12 +26,18 @@ export async function POST(request: NextRequest) {
     );
 
     if (result.status !== 200)
-      return NextResponse.json({
-        error: result.error,
-        status: result.status,
-      });
+      return NextResponse.json(
+        {
+          isSuccess: false,
+          error: result.error,
+        },
+        { status: result.status }
+      );
 
-    return NextResponse.json(result.data);
+    return NextResponse.json(
+      { isSuccess: true, data: result.data },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Chat API Error:", error);
     return NextResponse.json(

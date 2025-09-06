@@ -3,18 +3,18 @@ export interface User {
   email: string;
 }
 
-export interface ApiSuccessResponse<T> {
+export interface AuthSuccessResponse<T> {
   isSuccess: true;
   data: T;
   message: string;
 }
 
-export interface ApiErrorResponse {
+export interface AuthErrorResponse {
   isSuccess: false;
   error: string;
 }
 
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResponse<T> = AuthSuccessResponse<T> | AuthErrorResponse;
 
 export interface AuthData {
   email: string;

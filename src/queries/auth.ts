@@ -1,8 +1,8 @@
 import { instance } from "@/lib/axios";
 import {
-  ApiSuccessResponse,
+  AuthSuccessResponse,
   User,
-  ApiErrorResponse,
+  AuthErrorResponse,
   LoginData,
   RegisterData,
 } from "@/types/auth";
@@ -22,11 +22,11 @@ interface MutationOptions<T, E> {
 }
 
 export const useLogin = (
-  options?: MutationOptions<ApiSuccessResponse<User>, ApiErrorResponse>
+  options?: MutationOptions<AuthSuccessResponse<User>, AuthErrorResponse>
 ) => {
   return useMutation<
-    ApiSuccessResponse<User>,
-    AxiosError<ApiErrorResponse>,
+    AuthSuccessResponse<User>,
+    AxiosError<AuthErrorResponse>,
     LoginData
   >({
     mutationFn: (args) =>
@@ -44,11 +44,11 @@ export const useLogin = (
 };
 
 export const useLogout = (
-  options?: MutationOptions<ApiSuccessResponse<null>, ApiErrorResponse>
+  options?: MutationOptions<AuthSuccessResponse<null>, AuthErrorResponse>
 ) => {
   return useMutation<
-    ApiSuccessResponse<null>,
-    AxiosError<ApiErrorResponse>,
+    AuthSuccessResponse<null>,
+    AxiosError<AuthErrorResponse>,
     void
   >({
     mutationFn: () =>
@@ -66,11 +66,11 @@ export const useLogout = (
 };
 
 export const useRegister = (
-  options?: MutationOptions<ApiSuccessResponse<User>, ApiErrorResponse>
+  options?: MutationOptions<AuthSuccessResponse<User>, AuthErrorResponse>
 ) => {
   return useMutation<
-    ApiSuccessResponse<User>,
-    AxiosError<ApiErrorResponse>,
+    AuthSuccessResponse<User>,
+    AxiosError<AuthErrorResponse>,
     RegisterData
   >({
     mutationFn: (args) =>

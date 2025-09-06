@@ -64,6 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
       className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col  transition-all duration-300 absolute md:static ${
         isOpen ? "w-4/5 md:max-w-64   " : "w-4/5 md:max-w-20 hidden md:flex "
       }`}
+      onMouseEnter={() => onIsOpen(true)}
     >
       <div className={`size-full flex flex-col items-center gap-8`}>
         <div
