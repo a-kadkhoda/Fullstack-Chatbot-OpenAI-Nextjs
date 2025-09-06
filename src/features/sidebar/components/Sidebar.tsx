@@ -10,6 +10,9 @@ import {
 } from "@heroui/dropdown";
 import Image from "next/image";
 import { useProfileStore } from "@/zustand/useProfileStore";
+import { useLogout } from "@/queries/auth";
+import { addToast } from "@heroui/toast";
+import { useRouter } from "next/navigation";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -39,6 +42,23 @@ const recents = [
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
   const { avatarUrl, email, name } = useProfileStore();
+  const { push } = useRouter();
+  const { mutate: Logout } = useLogout({
+    onSuccess(data) {
+      addToast({
+        title: data.message,
+      });
+    },
+    onError(error) {
+      addToast({
+        title: error?.error,
+      });
+    },
+    onSettled(data) {
+      if (data?.isSuccess) push("/auth");
+    },
+  });
+
   return (
     <div
       className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col  transition-all duration-300 absolute md:static ${
@@ -116,7 +136,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
         <DropdownMenu>
           <DropdownItem key="GitHub">GitHub</DropdownItem>
           <DropdownItem key="Setting">Setting</DropdownItem>
-          <DropdownItem key="Log Out" className="text-danger" color="danger">
+          <DropdownItem
+            key="Log Out"
+            className="text-danger"
+            color="danger"
+            onClick={() => Logout()}
+          >
             Log Out
           </DropdownItem>
         </DropdownMenu>

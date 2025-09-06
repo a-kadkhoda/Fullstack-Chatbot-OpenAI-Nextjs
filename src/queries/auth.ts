@@ -1,12 +1,12 @@
 import { instance } from "@/lib/axios";
 import {
+  ApiSuccessResponse,
+  User,
+  ApiErrorResponse,
   LoginData,
-  LoginFailed,
-  LoginSuccess,
   RegisterData,
-  RegisterFailed,
-  RegisterSuccess,
 } from "@/types/auth";
+
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
@@ -22,9 +22,13 @@ interface MutationOptions<T, E> {
 }
 
 export const useLogin = (
-  options?: MutationOptions<LoginSuccess, LoginFailed>
+  options?: MutationOptions<ApiSuccessResponse<User>, ApiErrorResponse>
 ) => {
-  return useMutation<LoginSuccess, AxiosError<LoginFailed>, LoginData>({
+  return useMutation<
+    ApiSuccessResponse<User>,
+    AxiosError<ApiErrorResponse>,
+    LoginData
+  >({
     mutationFn: (args) =>
       instance.post("/api/auth/login", args).then((res) => res.data),
     onSuccess: (data) => {
@@ -38,22 +42,47 @@ export const useLogin = (
     },
   });
 };
-export const useRegister = (
-  options?: MutationOptions<RegisterSuccess, RegisterFailed>
+
+export const useLogout = (
+  options?: MutationOptions<ApiSuccessResponse<null>, ApiErrorResponse>
 ) => {
-  return useMutation<RegisterSuccess, AxiosError<RegisterFailed>, RegisterData>(
-    {
-      mutationFn: (args) =>
-        instance.post("/api/user", args).then((res) => res.data),
-      onSuccess: (data) => {
-        options?.onSuccess?.(data);
-      },
-      onError: (error) => {
-        options?.onError?.(error.response?.data);
-      },
-      onSettled(data, error) {
-        options?.onSettled?.(data, error?.response?.data);
-      },
-    }
-  );
+  return useMutation<
+    ApiSuccessResponse<null>,
+    AxiosError<ApiErrorResponse>,
+    void
+  >({
+    mutationFn: () =>
+      instance.delete("/api/auth/logout").then((res) => res.data),
+    onSuccess: (data) => {
+      options?.onSuccess?.(data);
+    },
+    onError: (error) => {
+      options?.onError?.(error.response?.data);
+    },
+    onSettled(data, error) {
+      options?.onSettled?.(data, error?.response?.data);
+    },
+  });
+};
+
+export const useRegister = (
+  options?: MutationOptions<ApiSuccessResponse<User>, ApiErrorResponse>
+) => {
+  return useMutation<
+    ApiSuccessResponse<User>,
+    AxiosError<ApiErrorResponse>,
+    RegisterData
+  >({
+    mutationFn: (args) =>
+      instance.post("/api/user", args).then((res) => res.data),
+    onSuccess: (data) => {
+      options?.onSuccess?.(data);
+    },
+    onError: (error) => {
+      options?.onError?.(error.response?.data);
+    },
+    onSettled(data, error) {
+      options?.onSettled?.(data, error?.response?.data);
+    },
+  });
 };

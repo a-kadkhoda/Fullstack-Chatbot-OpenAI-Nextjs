@@ -1,28 +1,28 @@
-export interface LoginSuccess {
-  isSuccess: boolean;
-  user: { name: string; email: string };
+export interface User {
+  name: string;
+  email: string;
+}
+
+export interface ApiSuccessResponse<T> {
+  isSuccess: true;
+  data: T;
   message: string;
 }
-export interface LoginFailed {
-  isSuccess: boolean;
+
+export interface ApiErrorResponse {
+  isSuccess: false;
   error: string;
 }
-export interface LoginData {
+
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+export interface AuthData {
   email: string;
   password: string;
 }
 
-export interface RegisterSuccess {
-  isSuccess: boolean;
-  user: { name: string; email: string };
-  message: string;
-}
-export interface RegisterFailed {
-  isSuccess: boolean;
-  error: string;
-}
-export interface RegisterData {
+export interface RegisterData extends AuthData {
   name: string;
-  email: string;
-  password: string;
 }
+
+export type LoginData = AuthData;
