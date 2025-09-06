@@ -3,7 +3,7 @@ import React from "react";
 
 const Chat = () => {
   return (
-    <div className="flex flex-col ">
+    <div className="size-full flex flex-col items-center justify-center transition-all duration-300">
       <PromptInput />
     </div>
   );
