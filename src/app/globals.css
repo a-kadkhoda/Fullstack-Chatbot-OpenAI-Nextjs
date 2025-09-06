@@ -14,3 +14,25 @@
   --breakpoint-2xl: 120rem; /* 1920px - Large Desktop */
   --breakpoint-3xl: 160rem; /* 2560px - extra Large Desktop */
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: #404040;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #737373;
+}

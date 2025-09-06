@@ -18,7 +18,7 @@ export default async function DashboardLayout({
     <section className="h-screen w-full flex ">
       <AuthProvider profile={user}>
         <SidebarWrapper>
-          <main className="size-full p-6 overflow-y-auto">{children}</main>
+          <main className="size-full py-6 overflow-y-auto">{children}</main>
         </SidebarWrapper>
       </AuthProvider>
     </section>
