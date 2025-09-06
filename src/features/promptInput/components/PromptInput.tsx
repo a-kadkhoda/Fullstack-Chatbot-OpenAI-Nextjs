@@ -4,7 +4,7 @@ import React from "react";
 
 const PromptInput = () => {
   return (
-    <div className=" relative w-3/4  max-h-48 flex items-center overflow-hidden bg-default-100 rounded-xl">
+    <div className=" relative w-full md:w-3/4  max-h-48 flex items-center overflow-hidden bg-default-100 rounded-xl">
       <Textarea
         type="text"
         className="h-full w-[calc(100%-80px)] "

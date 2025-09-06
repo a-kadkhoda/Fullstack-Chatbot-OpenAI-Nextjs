@@ -8,7 +8,8 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/dropdown";
-import { User } from "@heroui/user";
+import Image from "next/image";
+import { useProfileStore } from "@/zustand/useProfileStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -37,15 +38,16 @@ const recents = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
+  const { avatarUrl, email, name } = useProfileStore();
   return (
     <div
       className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col transition-all duration-300 ${
         isOpen
-          ? "w-4/5 md:w-64 absolute md:static  translate-x-0 md:translate-x-0"
-          : "w-4/5 md:w-20 absolute md:static -translate-x-full md:translate-x-0"
+          ? "w-4/5 md:max-w-64 absolute md:static  translate-x-0 md:translate-x-0"
+          : "w-4/5 md:max-w-20 absolute md:static -translate-x-full md:translate-x-0"
       }`}
     >
-      <div className="size-full flex flex-col items-center gap-8">
+      <div className={`size-full min-w- flex flex-col items-center gap-8`}>
         <div
           className={`w-full flex ${
             isOpen ? "justify-between" : "justify-center"
@@ -72,16 +74,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           {isOpen && <span>New Chat</span>}
         </Button>
         {isOpen && (
-          <div className="flex flex-col gap-2 w-full h-full overflow-y-auto rounded-lg p-2 ">
+          <div className="flex flex-col gap-2 w-full h-full  rounded-lg p-2 ">
             <span className="">Recents</span>
             <div>
               {recents.map((conv, index) => {
                 return (
                   <Button
-                    className="bg-transparent hover:bg-secondary-200 w-full flex  justify-start gap-4"
+                    className="bg-transparent hover:bg-secondary-200 w-full flex  justify-start gap-4 text-left"
                     key={index}
                   >
-                    {conv.title}
+                    <span className="truncate">{conv.title}</span>
                   </Button>
                 );
               })}
@@ -89,27 +91,33 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           </div>
         )}
       </div>
-      <Dropdown backdrop="blur" placement="right">
+      <Dropdown backdrop="blur">
         <DropdownTrigger>
           <div
-            className={`transition-colors duration-300 hover:bg-secondary-200 p-1  ${
+            className={`flex gap-2 transition-colors duration-300 hover:bg-secondary-200 p-1 cursor-pointer ${
               isOpen ? "rounded-lg" : "rounded-full"
-            } flex items-center`}
+            } flex items-center  overflow-hidden`}
           >
-            <User
-              avatarProps={{
-                src: "/me.jpg",
-              }}
-              description={isOpen ? "FullStack Developer" : ""}
-              name={isOpen ? "Aliakbar Kadkhoda" : ""}
-              className={` cursor-pointer ${
-                isOpen ? " justify-start gap-4" : "justify-center"
-              }`}
+            <Image
+              src={!!avatarUrl ? avatarUrl : "/profile.png"}
+              width={1920}
+              height={1080}
+              alt="profile"
+              className="rounded-full size-10 "
             />
+            <div
+              className={`w-full flex flex-col overflow-hidden transition-opacity duration-300 ${
+                isOpen ? "opacity-100 delay-200" : "opacity-0"
+              }`}
+            >
+              <span className="truncate">{name}</span>
+              <span className="truncate text-sm text-gray-500">{email}</span>
+            </div>
           </div>
         </DropdownTrigger>
         <DropdownMenu>
           <DropdownItem key="GitHub">GitHub</DropdownItem>
+          <DropdownItem key="Setting">Setting</DropdownItem>
           <DropdownItem key="Log Out" className="text-danger" color="danger">
             Log Out
           </DropdownItem>
