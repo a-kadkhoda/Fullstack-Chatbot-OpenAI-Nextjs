@@ -41,8 +41,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
   const { avatarUrl, email, name } = useProfileStore();
   return (
     <div
-      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col transition-all duration-300 absolute md:static ${
-        isOpen ? "w-4/5 md:max-w-64   " : "w-4/5 md:max-w-20 hidden md:block "
+      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col  transition-all duration-300 absolute md:static ${
+        isOpen ? "w-4/5 md:max-w-64   " : "w-4/5 md:max-w-20 hidden md:flex "
       }`}
     >
       <div className={`size-full flex flex-col items-center gap-8`}>
@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
       <Dropdown backdrop="blur">
         <DropdownTrigger>
           <div
-            className={`flex gap-2 transition-colors duration-300 hover:bg-secondary-200 p-1 cursor-pointer ${
+            className={` flex gap-2 transition-colors duration-300 hover:bg-secondary-200 p-1 cursor-pointer ${
               isOpen ? "rounded-lg" : "rounded-full"
             } flex items-center  overflow-hidden`}
           >
