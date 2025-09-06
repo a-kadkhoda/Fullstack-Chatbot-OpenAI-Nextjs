@@ -41,13 +41,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
   const { avatarUrl, email, name } = useProfileStore();
   return (
     <div
-      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col transition-all duration-300 ${
-        isOpen
-          ? "w-4/5 md:max-w-64 absolute md:static  translate-x-0 md:translate-x-0"
-          : "w-4/5 md:max-w-20 absolute md:static -translate-x-full md:translate-x-0"
+      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col transition-all duration-300 absolute md:static ${
+        isOpen ? "w-4/5 md:max-w-64   " : "w-4/5 md:max-w-20 hidden md:block "
       }`}
     >
-      <div className={`size-full min-w- flex flex-col items-center gap-8`}>
+      <div className={`size-full flex flex-col items-center gap-8`}>
         <div
           className={`w-full flex ${
             isOpen ? "justify-between" : "justify-center"
