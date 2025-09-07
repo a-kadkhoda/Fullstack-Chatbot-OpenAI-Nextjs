@@ -6,7 +6,7 @@ interface UserMessageProps {
 
 const UserMessage: React.FC<UserMessageProps> = ({ message }) => {
   return (
-    <span className="size-fit p-3 bg-secondary rounded-xl self-end">
+    <span className=" max-w-[452px] max-h-[300px] overflow-y-auto p-3 bg-secondary rounded-xl self-end break-words">
       {message}
     </span>
   );
