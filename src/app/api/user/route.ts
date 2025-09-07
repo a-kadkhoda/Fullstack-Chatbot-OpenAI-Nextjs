@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       { status: result.status }
     );
   } catch (error) {
-    console.error("Error creating user:", error);
+    console.error("Error get user:", error);
     return NextResponse.json(
       { isSuccess: false, error: "Internal server error" },
       { status: 500 }

@@ -31,6 +31,7 @@ export const userService = {
       status: 201,
     };
   },
+
   async getMe(id: number) {
     const existingUser = await prisma.user.findUnique({
       where: {
