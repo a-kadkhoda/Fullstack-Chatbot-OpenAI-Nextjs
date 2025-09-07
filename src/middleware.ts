@@ -30,7 +30,6 @@ export async function middleware(request: NextRequest) {
           { status: 403 }
         );
       }
-      console.log(payload.id);
       const requestHeaders = new Headers(request.headers);
       requestHeaders.set("x-user-id", payload.id);
 
