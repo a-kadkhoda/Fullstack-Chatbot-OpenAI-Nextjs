@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
           { status: 403 }
         );
       }
-
+      console.log(payload.id);
       const requestHeaders = new Headers(request.headers);
       requestHeaders.set("x-user-id", payload.id);
 
@@ -78,8 +78,9 @@ export const config = {
   matcher: [
     "/api/chat/:path*",
     "/api/user/:path*",
-    "/",
-    "/chat",
+    "/api/conversation/:path*",
+    "/:path*",
+    "/chat/:path*",
     "/auth/:path*",
   ],
 };

@@ -1,25 +1,21 @@
-import { messageSchema } from "@/helper/validations/messageValidations";
 import { messageService } from "@/services/message.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const body = await request.json();
-
-    const parseResult = messageSchema.safeParse(body);
-    if (!parseResult.success) {
+    const { searchParams } = new URL(request.url);
+    const convId = searchParams.get("conv");
+    if (!convId) {
       return NextResponse.json(
         {
           isSuccess: false,
-          error: parseResult.error.flatten(),
+          error: "ConversationId not found",
         },
         { status: 400 }
       );
     }
 
-    const { conversationId } = parseResult.data;
-
-    const result = await messageService.getMessages(conversationId);
+    const result = await messageService.getMessages(convId);
 
     return NextResponse.json(
       { data: result.data, isSuccess: true },

@@ -13,36 +13,24 @@ import { useProfileStore } from "@/zustand/useProfileStore";
 import { useLogout } from "@/queries/auth";
 import { addToast } from "@heroui/toast";
 import { useRouter } from "next/navigation";
+import { useGetConversation } from "@/queries/chat";
 
 interface SidebarProps {
   isOpen: boolean;
   onIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const recents = [
-  {
-    title: "Chat",
-  },
-  {
-    title: "Chat",
-  },
-  {
-    title: "Chat",
-  },
-  {
-    title: "Chat",
-  },
-  {
-    title: "Chat",
-  },
-  {
-    title: "Chat",
-  },
-];
+interface ConversationsItem {
+  convId: string;
+  title: string;
+}
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
   const { avatarUrl, email, name } = useProfileStore();
   const { push } = useRouter();
+
+  const { data: recnets } = useGetConversation();
+
   const { mutate: Logout } = useLogout({
     onSuccess(data) {
       addToast({
@@ -88,6 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           className={`bg-transparent hover:bg-secondary-200 w-full flex  ${
             isOpen ? " justify-start gap-4" : "justify-center "
           }`}
+          onPress={() => push(`/chat`)}
         >
           <Edit size={20} />
           {isOpen && <span>New Chat</span>}
@@ -96,16 +85,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           <div className="flex flex-col gap-2 w-full h-full  rounded-lg p-2 ">
             <span className="">Recents</span>
             <div>
-              {recents.map((conv, index) => {
-                return (
-                  <Button
-                    className="bg-transparent hover:bg-secondary-200 w-full flex  justify-start gap-4 text-left"
-                    key={index}
-                  >
-                    <span className="truncate">{conv.title}</span>
-                  </Button>
-                );
-              })}
+              {recnets &&
+                recnets.data.map((conv: ConversationsItem) => {
+                  return (
+                    <Button
+                      className="bg-transparent hover:bg-secondary-200 w-full flex  justify-start gap-4 text-left"
+                      key={conv.convId}
+                      onPress={() => push(`/chat/${conv.convId}`)}
+                    >
+                      <span className="truncate">{conv.title}</span>
+                    </Button>
+                  );
+                })}
             </div>
           </div>
         )}
