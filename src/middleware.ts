@@ -78,7 +78,7 @@ export const config = {
     "/api/chat/:path*",
     "/api/user/:path*",
     "/api/conversation/:path*",
-    "/:path*",
+    "/",
     "/chat/:path*",
     "/auth/:path*",
   ],
