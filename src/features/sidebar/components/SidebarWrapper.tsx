@@ -20,7 +20,7 @@ const SidebarWrapper = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
 
-        <div className={`size-full  `}>{children}</div>
+        <div className={` size-full `}>{children}</div>
       </div>
     </div>
   );

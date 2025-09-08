@@ -14,6 +14,7 @@ import { useLogout } from "@/queries/auth";
 import { addToast } from "@heroui/toast";
 import { useRouter } from "next/navigation";
 import { useGetConversation } from "@/queries/chat";
+import { useAppStore } from "@/zustand/useAppStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -46,6 +47,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
       if (data?.isSuccess) push("/auth");
     },
   });
+  const setIsPromptInputBotton = useAppStore(
+    (state) => state.setIsPromptInputBotton
+  );
 
   return (
     <div
@@ -78,7 +82,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           className={`bg-transparent hover:bg-secondary-200 w-full flex  ${
             isOpen ? " justify-start gap-4" : "justify-center "
           }`}
-          onPress={() => push(`/chat`)}
+          onPress={() => {
+            push(`/chat`);
+            setIsPromptInputBotton(false);
+          }}
         >
           <Edit size={20} />
           {isOpen && <span>New Chat</span>}
@@ -93,7 +100,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
                     <Button
                       className="bg-transparent hover:bg-secondary-200 w-full flex justify-start gap-4 text-left"
                       key={conv.convId}
-                      onPress={() => push(`/chat/${conv.convId}`)}
+                      onPress={() => {
+                        push(`/chat/${conv.convId}`);
+                        setIsPromptInputBotton(true);
+                      }}
                     >
                       <span className="truncate">{conv.title}</span>
                     </Button>

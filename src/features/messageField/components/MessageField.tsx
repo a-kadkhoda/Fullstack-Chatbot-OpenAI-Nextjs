@@ -2,6 +2,8 @@
 import BotMessage from "@/features/message/components/BotMessage";
 import UserMessage from "@/features/message/components/UserMessage";
 import { useGetMessages } from "@/queries/chat";
+import { useAppStore } from "@/zustand/useAppStore";
+import { Spinner } from "@heroui/spinner";
 import { useParams } from "next/navigation";
 import React from "react";
 
@@ -18,7 +20,7 @@ interface MessagesItem {
 
 const MessageField = () => {
   const { id } = useParams();
-
+  const isResponsePending = useAppStore((state) => state.isResponsePending);
   const { data: massages } = useGetMessages(id as string);
 
   return (
@@ -35,6 +37,7 @@ const MessageField = () => {
             </div>
           );
         })}
+      {isResponsePending && <Spinner color="secondary" size="lg" />}
     </div>
   );
 };
