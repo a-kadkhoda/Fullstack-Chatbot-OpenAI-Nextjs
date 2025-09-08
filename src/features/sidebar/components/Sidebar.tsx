@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
   const { avatarUrl, email, name } = useProfileStore();
   const { push } = useRouter();
 
-  const { data: recnets } = useGetConversation();
+  const { data: recents } = useGetConversation();
 
   const { mutate: Logout } = useLogout({
     onSuccess(data) {
@@ -49,12 +49,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
 
   return (
     <div
-      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col  transition-all duration-300 absolute md:static ${
-        isOpen ? "w-4/5 md:max-w-64   " : "w-4/5 md:max-w-20 hidden md:flex "
+      className={`z-50 h-full bg-primary-50 px-4 py-6 flex flex-col gap-4  transition-all duration-300 absolute md:static ${
+        isOpen ? "w-4/5 md:w-64   " : "w-4/5 md:w-20 hidden md:flex "
       }`}
       onMouseEnter={() => onIsOpen(true)}
     >
-      <div className={`size-full flex flex-col items-center gap-8`}>
+      <div
+        className={`h-[calc(100%-72px)] w-full flex flex-col items-center gap-8`}
+      >
         <div
           className={`w-full flex ${
             isOpen ? "justify-between" : "justify-center"
@@ -82,14 +84,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           {isOpen && <span>New Chat</span>}
         </Button>
         {isOpen && (
-          <div className="flex flex-col gap-2 w-full h-full  rounded-lg p-2 ">
+          <div className="flex flex-col gap-2 w-full h-[70%]  rounded-lg ">
             <span className="">Recents</span>
-            <div>
-              {recnets &&
-                recnets.data.map((conv: ConversationsItem) => {
+            <div className="overflow-y-auto p-2">
+              {recents &&
+                recents.data.map((conv: ConversationsItem) => {
                   return (
                     <Button
-                      className="bg-transparent hover:bg-secondary-200 w-full flex  justify-start gap-4 text-left"
+                      className="bg-transparent hover:bg-secondary-200 w-full flex justify-start gap-4 text-left"
                       key={conv.convId}
                       onPress={() => push(`/chat/${conv.convId}`)}
                     >
@@ -101,43 +103,45 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           </div>
         )}
       </div>
-      <Dropdown backdrop="blur">
-        <DropdownTrigger>
-          <div
-            className={` flex gap-2 transition-colors duration-300 hover:bg-secondary-200 p-1 cursor-pointer ${
-              isOpen ? "rounded-lg" : "rounded-full"
-            } flex items-center  overflow-hidden`}
-          >
-            <Image
-              src={!!avatarUrl ? avatarUrl : "/profile.png"}
-              width={1920}
-              height={1080}
-              alt="profile"
-              className="rounded-full size-10 "
-            />
+      <div className="flex justify-center items-center h-[72px]">
+        <Dropdown backdrop="blur">
+          <DropdownTrigger>
             <div
-              className={`w-full flex flex-col overflow-hidden transition-opacity duration-300 ${
-                isOpen ? "opacity-100 delay-200" : "opacity-0"
-              }`}
+              className={`flex gap-2 transition-colors duration-300 hover:bg-secondary-200 p-1 cursor-pointer ${
+                isOpen ? "rounded-lg" : "rounded-full"
+              } flex items-center  overflow-hidden`}
             >
-              <span className="truncate">{name}</span>
-              <span className="truncate text-sm text-gray-500">{email}</span>
+              <Image
+                src={!!avatarUrl ? avatarUrl : "/profile.png"}
+                width={1920}
+                height={1080}
+                alt="profile"
+                className="rounded-full size-10 "
+              />
+              <div
+                className={`w-full flex flex-col overflow-hidden transition-opacity duration-300 ${
+                  isOpen ? "opacity-100 delay-200" : "opacity-0"
+                }`}
+              >
+                <span className="truncate">{name}</span>
+                <span className="truncate text-sm text-gray-500">{email}</span>
+              </div>
             </div>
-          </div>
-        </DropdownTrigger>
-        <DropdownMenu>
-          <DropdownItem key="GitHub">GitHub</DropdownItem>
-          <DropdownItem key="Setting">Setting</DropdownItem>
-          <DropdownItem
-            key="Log Out"
-            className="text-danger"
-            color="danger"
-            onClick={() => Logout()}
-          >
-            Log Out
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+          </DropdownTrigger>
+          <DropdownMenu>
+            <DropdownItem key="GitHub">GitHub</DropdownItem>
+            <DropdownItem key="Setting">Setting</DropdownItem>
+            <DropdownItem
+              key="Log Out"
+              className="text-danger"
+              color="danger"
+              onClick={() => Logout()}
+            >
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
     </div>
   );
 };

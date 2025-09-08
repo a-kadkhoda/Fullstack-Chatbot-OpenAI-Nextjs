@@ -6,6 +6,9 @@ export const conversationService = {
       where: {
         userId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     const info = existingConversations.map((conv) => {
