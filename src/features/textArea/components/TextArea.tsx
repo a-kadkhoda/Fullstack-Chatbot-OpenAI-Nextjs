@@ -19,11 +19,11 @@ const TextArea: React.FC<TextAreaProps> = ({
   useEffect(() => {
     const textarea = textareaRef.current;
     if (textarea) {
-      /*       textarea.style.height = "auto";
+      textarea.style.height = "auto";
 
       const scrollHeight = textarea.scrollHeight;
 
-      textarea.style.height = `${scrollHeight}px`; */
+      textarea.style.height = `${scrollHeight}px`;
     }
   }, [value]);
 

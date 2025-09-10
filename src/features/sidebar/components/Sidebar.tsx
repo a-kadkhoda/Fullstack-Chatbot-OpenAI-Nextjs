@@ -14,7 +14,6 @@ import { useLogout } from "@/queries/auth";
 import { addToast } from "@heroui/toast";
 import { useRouter } from "next/navigation";
 import { useGetConversation } from "@/queries/chat";
-import { useAppStore } from "@/zustand/useAppStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -47,9 +46,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
       if (data?.isSuccess) push("/auth");
     },
   });
-  const setIsPromptInputBotton = useAppStore(
-    (state) => state.setIsPromptInputBotton
-  );
 
   return (
     <div
@@ -84,7 +80,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
           }`}
           onPress={() => {
             push(`/chat`);
-            setIsPromptInputBotton(false);
           }}
         >
           <Edit size={20} />
@@ -102,7 +97,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onIsOpen }) => {
                       key={conv.convId}
                       onPress={() => {
                         push(`/chat/${conv.convId}`);
-                        setIsPromptInputBotton(true);
                       }}
                     >
                       <span className="truncate">{conv.title}</span>

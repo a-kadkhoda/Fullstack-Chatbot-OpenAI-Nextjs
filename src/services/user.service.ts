@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { RegisterData } from "@/types/auth";
+import { RegisterData } from "@/types/queries/auth";
 import bcrypt from "bcrypt";
 import _ from "lodash";
 

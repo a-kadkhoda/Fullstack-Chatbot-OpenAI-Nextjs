@@ -1,10 +1,8 @@
 "use client";
 import BotMessage from "@/features/message/components/BotMessage";
 import UserMessage from "@/features/message/components/UserMessage";
-import { useGetMessages } from "@/queries/chat";
 import { useAppStore } from "@/zustand/useAppStore";
 import { Spinner } from "@heroui/spinner";
-import { useParams } from "next/navigation";
 import React from "react";
 
 export enum Roles {
@@ -12,32 +10,24 @@ export enum Roles {
   Bot = "BOT",
 }
 
-interface MessagesItem {
-  id: number;
+export interface MessagesItem {
   msg: string;
   role: Roles;
 }
 
 const MessageField = () => {
-  const { id } = useParams();
-  const isResponsePending = useAppStore((state) => state.isResponsePending);
-  const { data: massages } = useGetMessages(id as string);
+  const { messages, isBotPending } = useAppStore();
 
   return (
-    <div className=" md:w-3/4  mx-auto  ">
-      {massages &&
-        massages.data.map((msg: MessagesItem) => {
-          return (
-            <div
-              className="flex flex-col items-center justify-end gap-6"
-              key={msg.id}
-            >
-              {msg.role === Roles.User && <UserMessage message={msg.msg} />}
-              {msg.role === Roles.Bot && <BotMessage message={msg.msg} />}
-            </div>
-          );
-        })}
-      {isResponsePending && <Spinner color="secondary" size="lg" />}
+    <div className=" md:w-3/4  mx-auto flex flex-col gap-4 ">
+      {messages.map((msg: MessagesItem, index) =>
+        msg.role === Roles.User ? (
+          <UserMessage key={index} message={msg.msg} />
+        ) : (
+          <BotMessage key={index} message={msg.msg} />
+        )
+      )}
+      {isBotPending && <Spinner color="secondary" size="lg" />}
     </div>
   );
 };

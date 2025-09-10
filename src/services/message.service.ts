@@ -9,7 +9,7 @@ export const messageService = {
     });
 
     const info = existingMessages.map((msg) => {
-      return { id: msg.id, msg: msg.content, role: msg.role };
+      return { msg: msg.content, role: msg.role };
     });
 
     return { data: info };

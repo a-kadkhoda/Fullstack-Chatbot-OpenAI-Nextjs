@@ -1,21 +1,23 @@
+import { MessagesItem } from "@/features/messageField/components/MessageField";
 import { create } from "zustand";
 
 interface AppState {
-  isPromptInputBotton: boolean;
-  isResponsePending: boolean;
-
-  setIsPromptInputBotton: (value: boolean) => void;
-  setIsResponsePending: (value: boolean) => void;
+  messages: MessagesItem[];
+  isBotPending: boolean;
+  setMessage: (data: MessagesItem) => void;
+  setMessages: (data: MessagesItem[]) => void;
+  setIsBotPending: (value: boolean) => void;
 }
 
 const initialState = {
-  isPromptInputBotton: false,
-  isResponsePending: false,
+  messages: [],
+  isBotPending: false,
 };
 
 export const useAppStore = create<AppState>()((set) => ({
   ...initialState,
-  setIsPromptInputBotton: (value) =>
-    set(() => ({ isPromptInputBotton: value })),
-  setIsResponsePending: (value) => set(() => ({ isResponsePending: value })),
+  setMessage: (value) =>
+    set((state) => ({ messages: [...state.messages, value] })),
+  setMessages: (value) => set(() => ({ messages: value })),
+  setIsBotPending: (value) => set(() => ({ isBotPending: value })),
 }));

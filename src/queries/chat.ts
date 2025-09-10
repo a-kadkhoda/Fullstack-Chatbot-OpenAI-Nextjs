@@ -4,10 +4,11 @@ import {
   ChatSuccessResponse,
   ChatErrorResponse,
   ChatData,
-} from "@/types/chat";
+} from "@/types/queries/chat";
 import { AxiosError } from "axios";
 import { instance } from "@/lib/axios";
-import { MutationOptions } from "@/types/queries";
+import { MutationOptions } from "@/types/queries/queries";
+import { MessagesItem } from "@/features/messageField/components/MessageField";
 
 export const chatKeys = {
   all: ["chat"],
@@ -16,7 +17,10 @@ export const chatKeys = {
 };
 
 export const useGetMessages = (conversationId: string) => {
-  return useQuery({
+  return useQuery<
+    ChatSuccessResponse<MessagesItem[]>,
+    AxiosError<ChatErrorResponse>
+  >({
     queryKey: chatKeys.messages(conversationId),
     queryFn: () =>
       instance
@@ -43,15 +47,9 @@ export const useChat = (
   >({
     mutationFn: (args) =>
       instance.post("/api/chat", args).then((res) => res.data),
-    onSuccess: (data, variables) => {
+    onSuccess: (data) => {
       options?.onSuccess?.(data);
       queryClient.invalidateQueries({ queryKey: chatKeys.conversation });
-
-      if (variables.conversationId) {
-        queryClient.invalidateQueries({
-          queryKey: chatKeys.messages(variables.conversationId),
-        });
-      }
     },
     onError: (error) => {
       options?.onError?.(error.response?.data);

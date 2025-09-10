@@ -5,8 +5,8 @@ import {
   AuthErrorResponse,
   LoginData,
   RegisterData,
-} from "@/types/auth";
-import { MutationOptions } from "@/types/queries";
+} from "@/types/queries/auth";
+import { MutationOptions } from "@/types/queries/queries";
 
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";

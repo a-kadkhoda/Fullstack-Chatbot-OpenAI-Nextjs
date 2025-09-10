@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { LoginData } from "@/types/auth";
+import { LoginData } from "@/types/queries/auth";
 import bcrypt from "bcrypt";
 
 export const authService = {
